@@ -49,7 +49,7 @@ $ pwd
 /home7/perrett/hzarloop
 ```
 
-The first line of pbs.sh indicates the resources that you want from ACISS.  In general you will want generic nodes, but perhaps there will be instances where you will need more computing time than 24 hours in which case you will want to use longgen nodes.  Take a look at this ACISS howto that talks shortly about what kind of nodes they have. ![Submission Queues](http://aciss-computing.uoregon.edu/2013/09/04/how-to-submission-queues/)
+The first line of pbs.sh indicates the resources that you want from ACISS.  In general you will want generic nodes, but perhaps there will be instances where you will need more computing time than 24 hours in which case you will want to use longgen nodes.  Take a look at this ACISS howto that talks shortly about what kind of nodes they have. !(http://aciss-computing.uoregon.edu/2013/09/04/how-to-submission-queues/)
 
 Indicate how many nodes and processors/node you want in the first line
 

@@ -21,3 +21,14 @@ Start up an R session
 Then once you are in an interactive R session, type...
 
 `> install.packages(hzar, lib="~/Rpackages")`
+
+Use any of the http servers to install hzar.
+
+Then we need to create a .Renviron file in the home directory so that R knows where to look for the hzar module.
+
+`$ touch ~/.Renviron`
+
+edit the file and add the line
+
+`R_LIBS=~/Rpackages`
+

@@ -1,0 +1,49 @@
+May 2nd, 2016
+- Using R/3.2.3
+- Download hzar through Oregon http server
+	- for me this was option 22, then 94.
+- Install hzar to local directory with
+	- install.packages("hzar", lib.loc="/home7/perrett/Rpackages")
+- Then add /home7/... to R path with by
+	- Create .Renviron in home directory and add line
+		- R_LIBS=/home7/perrett/Rpackages/
+- Now the library can be imported without specifying a location.
+- I realized that while running on the cluster there may be some significant bottlenecks
+	- reading the data csv with R.  Every instance of R will battle over permission to read the
+	 	csv.
+		- Instead of opening the csv for every instance of R, I've written the code so that
+			python reads it once, and sends the string to the R script.
+	- Writing and reading the R script.
+		- as it was, the python script generated an rscript called "hzar_loop.R" for every
+			allele that needed to be examined.  While running on the cluster, this will be a
+			problem because every process will be trying to read and write a file called
+			"hzar_loop.R".
+		- My fix is just to create a unique R script for every allele.  This is a bit messy.
+			I'll make it marginally cleaner by deleting the R file after it has been used.
+
+______________________________________
+
+May 3rd, 2016
+- I have a suspicion that writing and reading the R script 100's of times simultaneously
+	is a significant I/O constraint.  Even if it isn't, it is an ugly solution and I'm getting
+	rid of it.
+- Found how R takes in command line arguments.  Use the optional arguments to be plugged into 
+	a single script.  No more writing 100's of R scripts.  Yay.
+- Asking for too many resources gives the MPI a bad time.  I get errors.  I've been able to do
+	nodes=15, ppn=10 at max (edit: this is because I'm stupid and wasn't getting the resources
+	correctly)
+- Using more cores isn't decreasing time????  Why. (edit: again, because dumb)
+- The R script takes wildly different times on different processors.  It is staggered, for
+	example, one will finish in 160 then 180, then 200, then 240...  It seems like either
+	the processors are different speeds, or R is fighting over resources.
+- Newsflash: I'm an idiot.
+- the PBS script is not working the way I believed it was.  I am not getting the resources I'm
+	asking for.  I think I am running this all on a single core, which explains why I'm seeing
+	the exact same performance in every situation.
+- using qsub works.  I can write.
+	- qsub -q generic -l nodes=10:ppn=12 -N hzarlooptest -M perrettbrian@gmail.com -I
+	- This gives me 120 cores
+	- Once I am in my session I navigate to the bioinformatics directory and run
+	- bash testscript.sh, which has my 'mpirun -np 120 python3 clusterfit.py' command
+		in it.
+- 1000 alleles analyzed in 5 minutes!  Projected time for 50,000 -> 4.8 hours

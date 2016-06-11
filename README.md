@@ -79,9 +79,9 @@ We can check if it is in queue or running using...
 # Tag Options
 flag | explanation
 --- | ---
---input | your input csv data file
---locinames | text file that includes the allele names you are interested in fitting clines to (generated using `python3 hzarloop.py`, as described earlier)
---output | name of the file of the output csv file (be sure that the directory exists, else you will get an error message)
---repeat | The number of times you want to repeat the analysis on the dataset.  Will create multiple output files.
---modelIII | True or False.  Indicates whether or not you want to fit modelIII (sigmoid with non-mirrored exponential tails).  Defaults to True.
---chainlength | Iterations for markov chains.  Defaults to 1e5.
+input | your input csv data file
+locinames | text file that includes the allele names you are interested in fitting clines to (generated using `python3 hzarloop.py`, as described earlier)
+output | name of the file of the output csv file (be sure that the directory exists, else you will get an error message)
+repeat | The number of times you want to repeat the analysis on the dataset.  Will create multiple output files.
+modelIII | True or False.  Indicates whether or not you want to fit modelIII (sigmoid with non-mirrored exponential tails).  Defaults to True.
+chainlength | Iterations for markov chains.  Defaults to 1e5.

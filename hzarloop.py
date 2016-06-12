@@ -433,7 +433,7 @@ class Hzarloop:
                 negative side of the transect (aka negative distances) will be summed,
                 and the greater of the 2 will be used.
         """
-        classification = False 
+        classification = False
         with open(self.inputfile, "r") as f:                                                   # open csv data file object as f
             reader = csv.reader(f)                                                             # csv reader object
             i = 0                                                                              # keeping track of index so we know when we are at the header

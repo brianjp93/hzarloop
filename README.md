@@ -85,3 +85,29 @@ output | name of the file of the output csv file (be sure that the directory exi
 repeat | The number of times you want to repeat the analysis on the dataset.  Will create multiple output files.
 modelIII | True or False.  Indicates whether or not you want to fit modelIII (sigmoid with non-mirrored exponential tails).  Defaults to True.
 chainlength | Iterations for markov chains.  Defaults to 1e5.
+
+# Example Usage
+
+### Generating the Allele List
+One of the arguments to clusterfit.py is --locinames.  This file can (and probably should) be generated using hzarloop.py like so.
+
+`python3 hzarloop.py input.csv alleles.txt`
+
+This will generate the allele list for the data file "input.csv" in the location "alleles.txt" such that it will choose the allele that has higher frequency for negative disance values (If a sigmoid is fit, it will slope down to the right).  If there are specific alleles you wish to analyze, then it may be unecessary to use this functionality.
+
+### Interactive Session
+Here's an example of how we might run this interactively on ACISS.  Let's assume I have all of my files in the same directory.  My input datafile will be called input.csv, and my allele list text file is alleles.txt.  Request the resources you would like to use, using qsub and include the -I tag to indicate you want an interactive node.
+
+`qsub -q generic -l nodes=10:ppn=12 -I`
+
+Now create a bash script in the same directory.  I will call mine script.sh.  Add the following lines to it.  Be sure that the -np flag is your nodes times ppn to make full use of all of your resources.
+
+```
+module load python/3.3.4
+module load R/3.2.3
+module load mpi4py/1.3.1
+module list
+
+
+mpirun -np 120 python3 clusterfit.py --input input.csv --locinames alleles.txt --output output/outputdata --repeat 1 --modelIII False --chainlength 1e5
+```
